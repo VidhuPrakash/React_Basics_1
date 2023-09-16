@@ -6,7 +6,7 @@ router.get('/',async(req,res)=>{
     const users = await User.find();
     res.send(users);
 });
-router.post('/newuser', async (req, res) => {
+router.post('/', async (req, res) => {
     const newUser = new User(req.body);
     try {
       await newUser.save();
@@ -17,7 +17,7 @@ router.post('/newuser', async (req, res) => {
     }
   });
 router.put('/:id', async (req, res) => {
-    const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body);
+    const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body,{ new: true });
     res.send(updatedUser);
   });
 router.delete('/:id', async (req, res) => {

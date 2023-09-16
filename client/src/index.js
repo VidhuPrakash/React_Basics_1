@@ -6,10 +6,9 @@ import {
 } from "react-router-dom";
 import './index.css';
 // import App from './App';
-import LoginForm from './components/LoginForm/LoginForm';
+import LoginForm from './LoginForm.jsx';
 import reportWebVitals from './reportWebVitals';
-import AdminPanel from './components/AdminPanel/AdminPanel';
-import AddUser from './components/AddUser/AddUser';
+import AdminPanel from './AdminPanel';
 
 const router = createBrowserRouter([
   {
@@ -19,10 +18,6 @@ const router = createBrowserRouter([
   {
     path: "/admin",
     element: <AdminPanel/>,
-  },
-  {
-    path: "/admin/user",
-    element: <AddUser/>,
   },
 ]);
 

@@ -2,7 +2,7 @@ import React,{useState} from "react";
 import { useNavigate } from "react-router-dom";
 
 import axios from 'axios';
-import './loginstyle.css'
+import '../src/components/LoginForm/loginstyle.css'
 
 function LoginForm() {
   const [name, setName] = useState('');

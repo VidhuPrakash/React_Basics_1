@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import AddUserPage from "./components/AddUser/AddUser";
+import "../src/components/AdminPanel/adminpanel.css";
 function AdminPage() {
-  let navigate = useNavigate();
+  // let navigate = useNavigate();
   const [users, setUser] = useState([]);
   // const [selectedUser, setSelectedUser] = useState(null);
-// to show user data
+  // to show user data
   useEffect(() => {
     fetchUsers();
   }, []);
-// 
+  //
   const updateUser = async (index, updatedUser) => {
+    // setUser new updated user details
     setUser(users.map((user, i) => (i === index ? updatedUser : user)));
     // Make an API call to update the user in the backend
-  if (updatedUser) {
-    await axios.put(`/admin/${updatedUser._id}`, updatedUser);
-  }
+    if (updatedUser) {
+      await axios.put(`/admin/${updatedUser._id}`, updatedUser);
+    }
   };
 
   const fetchUsers = async () => {
@@ -24,7 +25,7 @@ function AdminPage() {
     if (Array.isArray(response.data)) {
       setUser(response.data);
     } else {
-      console.error('API did not return an array');
+      console.error("API did not return an array");
     }
   };
 
@@ -33,15 +34,14 @@ function AdminPage() {
     fetchUsers();
   };
 
-  const AddUser = () => {
-    navigate("user");
-  };
-
   return (
-    <div>
-      <h1>Admin Panel</h1>
-      <button onClick={AddUser}>Add User</button>
-      {users.map((user,index) => (
+    <div className="container">
+      <div className="navbar">
+        <h1 className="Title">Admin Panel</h1>
+      </div>
+      <AddUserPage fetchUsers={fetchUsers} />
+      <div className="showUser">
+      {users.map((user, index) => (
         <div key={user._id}>
           <form
             onSubmit={(e) => {
@@ -50,7 +50,7 @@ function AdminPage() {
             }}
           >
             <table>
-              <thead>
+              <thead className="thead">
                 <tr>
                   <td>UserName</td>
                   <td>Name</td>
@@ -59,7 +59,7 @@ function AdminPage() {
                   <td>Address</td>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="tbody">
                 <tr>
                   <td>
                     <input
@@ -84,7 +84,10 @@ function AdminPage() {
                       type="text"
                       value={user.phoneNumber}
                       onChange={(e) =>
-                        updateUser(index, { ...user, phoneNumber: e.target.value })
+                        updateUser(index, {
+                          ...user,
+                          phoneNumber: e.target.value,
+                        })
                       }
                     />
                   </td>
@@ -121,6 +124,7 @@ function AdminPage() {
           </form>
         </div>
       ))}
+      </div>
     </div>
   );
 }

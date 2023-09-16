@@ -1,9 +1,8 @@
 import React from 'react'
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-    function AddUserPage() {
-      let navigate = useNavigate();
+    function AddUserPage({fetchUsers}) {
       // set user data initial null
         const [user, setUser] = useState({ username: '', name: '', email: '', phone: '', address: '' });
       // set user data from change in handle
@@ -11,24 +10,17 @@ import { useNavigate } from 'react-router-dom';
           setUser({ ...user, [e.target.name]: e.target.value });
         };
 
-        const goAdmin=()=>{
-          navigate('/admin');
-        }
       // post user data when clicking the form
         const handleSubmit = async (e) => {
           e.preventDefault();
           // Make a POST request to your API to create the user
-          await fetch('/admin/newuser', {
-            method: 'post',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(user)
-          });
+          await axios.post('/admin', user);
+          fetchUsers();
           setUser({ username: '', name: '', email: '', phoneNumber: '', address: '' });
         };
       
         return (
           <>
-          <button onClick={goAdmin}>Go TO ADMIN PAGE</button>
           <form onSubmit={handleSubmit}>
             <input type="text" name="username" placeholder="Username" value={user.username} onChange={handleChange} />
             <input type="text" name="name" placeholder="Name" value={user.name} onChange={handleChange} />

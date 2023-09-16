@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Roboto&display=swap');
+
+.container{
+}
+.navbar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.showUser{
+    background: linear-gradient(rgb(1, 60, 132), rgb(28, 34, 35), rgb(0, 26, 128));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 100px;
+}
+.thead{
+    color: aliceblue;
+}
+.thead td{
+    font-family: 'Poppins',sans-serif;
+}
+.tbody input{
+    border: 1px  aqua;
+    background: none;
+    color: aqua;
+}
