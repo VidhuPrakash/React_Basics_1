@@ -17,6 +17,7 @@ function LoginForm() {
       const response = await axios.post('/login', { name, password });
       console.log(response.data);
       if (response.data === 'Login successful') {
+        setError('');
         // Redirect to admin panel
         navigate('/admin');
       } else {
@@ -25,7 +26,7 @@ function LoginForm() {
       }
     } catch (error) {
       console.error(error);
-      setError('An error occurred');
+      setError('Username or Password incorrect');
     }
   };
   return (

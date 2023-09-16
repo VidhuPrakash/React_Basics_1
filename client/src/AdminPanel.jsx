@@ -5,6 +5,7 @@ import "../src/components/AdminPanel/adminpanel.css";
 function AdminPage() {
   // let navigate = useNavigate();
   const [users, setUser] = useState([]);
+  const [errorMessage, setErrorMessage] = useState(null);
   // const [selectedUser, setSelectedUser] = useState(null);
   // to show user data
   useEffect(() => {
@@ -14,9 +15,26 @@ function AdminPage() {
   const updateUser = async (index, updatedUser) => {
     // setUser new updated user details
     setUser(users.map((user, i) => (i === index ? updatedUser : user)));
+  
     // Make an API call to update the user in the backend
     if (updatedUser) {
-      await axios.put(`/admin/${updatedUser._id}`, updatedUser);
+      try {
+        await axios.put(`/admin/${updatedUser._id}`, updatedUser);
+        updatedUser.errorMessage('');
+      } catch (error) {
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          updatedUser.errorMessage = error.response.data.error; // Set the error message in state
+        } else if (error.request) {
+          // The request was made but no response was received
+          updatedUser.errorMessage = 'No response received from server.';
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          updatedUser.errorMessage='';
+
+        }
+      }
     }
   };
 
@@ -41,6 +59,9 @@ function AdminPage() {
       </div>
       <AddUserPage fetchUsers={fetchUsers} />
       <div className="showUser">
+        <div className="title-head">
+          <h1>USERS DATA</h1>
+        </div>
       {users.map((user, index) => (
         <div key={user._id}>
           <form
@@ -101,7 +122,7 @@ function AdminPage() {
                     />
                   </td>
                   <td>
-                    <input
+                    <textarea
                       type="text"
                       value={user.address}
                       onChange={(e) =>
@@ -121,6 +142,7 @@ function AdminPage() {
                 </tr>
               </tbody>
             </table>
+            {user.errorMessage&&<p>{user.errorMessage}</p>}
           </form>
         </div>
       ))}
